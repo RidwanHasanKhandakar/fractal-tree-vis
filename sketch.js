@@ -21,7 +21,7 @@ function setup(){
 }
 function draw(){
     background(51);
-    if(mode==="recusrsive"){
+    if(mode==="recursive"){
         generateButton.hide();
         angle=slider.value();
         stroke(255);
@@ -52,7 +52,45 @@ function branch(len){
 function setMode(newMode){
     mode=newMode;
     background(51);
-    if(mode==="lsystem"){
-        turtle();
+}
+
+function generate(){
+    let nextSentence="";
+    for(let i=0;i<sentence.length;i++){
+        let current = sentence.charAt(i);
+        let found = false;
+        for (let j=0;j<rules.length;j++){
+            if(current==rules[j].a){
+                found = true;
+                nextSentence+=rules[j].b;
+                break;
+            }
+        }
+        if(!found){
+            nextSentence+=current;
+        }
+    }
+    sentence=nextSentence;
+    len2*=0.5;
+}
+function turtle(){
+    resetMatrix();
+    translate(width/2,height);
+    stroke(0,255,120);
+    for(let i=0;i<sentence.length;i++){
+        let current = sentence.charAt(i);
+        if(current=="F"){
+            line(0,0,0,-len2);
+            translate(0,-len2);
+        }
+        else if (current=="+"){
+            rotate(angle2);
+        }else if(current=="-"){
+            rotate(-angle2);
+        }else if(current=="["){
+            push();
+        }else if(current=="]"){
+            pop();
+        }
     }
 }
