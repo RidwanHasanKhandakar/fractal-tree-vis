@@ -11,12 +11,25 @@
 
 <body>
 
-  <div class="container">
-    <h1>Fractal Tree</h1>
-    <p>Move the slider to control the branch angle.</p>
-  </div>
+    <div class="container">
 
-  <script src="sketch.js"></script>
+        <h1>Fractal Generator</h1>
+
+        <div class="controls">
+
+            <button onclick="setMode('recursive')">
+                Recursive Tree
+            </button>
+
+            <button onclick="setMode('lsystem')">
+                L-System
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="sketch.js"></script>
 
 </body>
 </html>
