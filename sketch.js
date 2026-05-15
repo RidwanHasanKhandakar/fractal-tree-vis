@@ -247,3 +247,97 @@ function turtle(){
         }
     }
 }
+function changePreset(){
+
+    loadPreset(presetSelect.value());
+}
+
+function loadPreset(type){
+
+    sentence="";
+    rules=[];
+
+    if(type==="Tree"){
+
+        axiom="F";
+
+        sentence=axiom;
+
+        angle2=radians(25);
+
+        rules.push({
+            a:"F",
+            b:"FF+[+F-F-F]-[-F+F+F]"
+        });
+    }
+
+    else if(type==="Bush"){
+
+        axiom="X";
+
+        sentence=axiom;
+
+        angle2=radians(22);
+
+        rules.push({
+            a:"X",
+            b:"F+[[X]-X]-F[-FX]+X"
+        });
+
+        rules.push({
+            a:"F",
+            b:"FF"
+        });
+    }
+
+    else if(type==="Plant"){
+
+        axiom="X";
+
+        sentence=axiom;
+
+        angle2=radians(20);
+
+        rules.push({
+            a:"X",
+            b:"F-[[X]+X]+F[+FX]-X"
+        });
+
+        rules.push({
+            a:"F",
+            b:"FF"
+        });
+    }
+
+    else if(type==="Weed"){
+
+        axiom="F";
+
+        sentence=axiom;
+
+        angle2=radians(35);
+
+        rules.push({
+            a:"F",
+            b:"F[+F]F[-F][F]"
+        });
+    }
+
+    else if(type==="Coral"){
+
+        axiom="F";
+
+        sentence=axiom;
+
+        angle2=radians(27);
+
+        rules.push({
+            a:"F",
+            b:"FF-[-F+F+F]+[+F-F-F]"
+        });
+    }
+
+    len2=120;
+
+    drawIndex=0;
+}
