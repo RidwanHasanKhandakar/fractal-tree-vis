@@ -11,16 +11,38 @@ let resetButton;
 let presetSelect;
 let drawIndex=0;
 function setup(){
-    createCanvas(400,400);
-    slider = createSlider(0,TWO_PI,PI/4,0.01);
-    angle2=radians(25);
-    rules[0]={
-        a:"F",
-        b:"FF+[+F-F-F]-[-F+F+F]"
-    };
-    generateButton = createButton("Generate L-System");
+    createCanvas(900,700);
+
+    angleMode(RADIANS);
+
+    slider=createSlider(0,TWO_PI,PI/4,0.01);
+    slider.position(20,20);
+    slider.style("width","200px");
+
+    generateButton=createButton("Generate");
+    generateButton.position(20,60);
     generateButton.mousePressed(generate);
     generateButton.hide();
+
+    resetButton=createButton("Reset");
+    resetButton.position(110,60);
+    resetButton.mousePressed(resetLSystem);
+    resetButton.hide();
+
+    presetSelect=createSelect();
+    presetSelect.position(20,100);
+
+    presetSelect.option("Tree");
+    presetSelect.option("Bush");
+    presetSelect.option("Plant");
+    presetSelect.option("Weed");
+    presetSelect.option("Coral");
+
+    presetSelect.changed(changePreset);
+
+    presetSelect.hide();
+
+    loadPreset("Tree");
 }
 function draw(){
     background(51);
