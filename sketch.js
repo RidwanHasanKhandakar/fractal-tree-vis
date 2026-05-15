@@ -159,41 +159,90 @@ function keyPressed(){
 }
 
 function generate(){
-    let nextSentence="";
+    et nextSentence="";
+
     for(let i=0;i<sentence.length;i++){
-        let current = sentence.charAt(i);
-        let found = false;
-        for (let j=0;j<rules.length;j++){
-            if(current==rules[j].a){
-                found = true;
+
+        let current=sentence.charAt(i);
+
+        let found=false;
+
+        for(let j=0;j<rules.length;j++){
+
+            if(current===rules[j].a){
+
+                found=true;
+
                 nextSentence+=rules[j].b;
+
                 break;
             }
         }
+
         if(!found){
             nextSentence+=current;
         }
     }
+
     sentence=nextSentence;
-    len2*=0.5;
+
+    len2*=0.55;
+
+    drawIndex=0;
 }
+
+function resetLSystem(){
+
+    sentence=axiom;
+
+    len2=120;
+
+    drawIndex=0;
+}
+
 function turtle(){
     resetMatrix();
+
     translate(width/2,height);
-    stroke(0,255,120);
-    for(let i=0;i<sentence.length;i++){
-        let current = sentence.charAt(i);
-        if(current=="F"){
+
+    strokeWeight(1.5);
+
+    drawIndex=min(drawIndex+20,sentence.length);
+
+    for(let i=0;i<drawIndex;i++){
+
+        let current=sentence.charAt(i);
+
+        stroke(
+            map(i,0,sentence.length,50,255),
+            255,
+            map(mouseY,0,height,100,255)
+        );
+
+        if(current==="F"){
+
             line(0,0,0,-len2);
+
             translate(0,-len2);
         }
-        else if (current=="+"){
+
+        else if(current==="+"){
+
             rotate(angle2);
-        }else if(current=="-"){
+        }
+
+        else if(current==="-"){
+
             rotate(-angle2);
-        }else if(current=="["){
+        }
+
+        else if(current==="["){
+
             push();
-        }else if(current=="]"){
+        }
+
+        else if(current==="]"){
+
             pop();
         }
     }
