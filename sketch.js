@@ -28,6 +28,7 @@ function draw(){
         translate(width/2,height);
         branch(100);
     }else if(mode==="lsystem"){
+        slider.hide();
         generateButton.show();
         turtle();
     }
