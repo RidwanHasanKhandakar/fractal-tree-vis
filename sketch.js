@@ -17,15 +17,17 @@ let presetSelect;
 
 let drawIndex=0;
 
+let canvas;
+
 function setup(){
 
-    createCanvas(900,700);
+    canvas=createCanvas(windowWidth,windowHeight);
 
     angleMode(RADIANS);
 
     slider=createSlider(0,TWO_PI,PI/4,0.01);
     slider.position(20,20);
-    slider.style("width","200px");
+    slider.style("width","220px");
 
     generateButton=createButton("Generate");
     generateButton.position(20,60);
@@ -33,7 +35,7 @@ function setup(){
     generateButton.hide();
 
     resetButton=createButton("Reset");
-    resetButton.position(110,60);
+    resetButton.position(120,60);
     resetButton.mousePressed(resetLSystem);
     resetButton.hide();
 
@@ -53,9 +55,14 @@ function setup(){
     loadPreset("Tree");
 }
 
+function windowResized(){
+
+    resizeCanvas(windowWidth,windowHeight);
+}
+
 function draw(){
 
-    background(10);
+    background(8);
 
     if(mode==="recursive"){
 
@@ -69,14 +76,13 @@ function draw(){
 
         push();
 
-        translate(width/2,height);
+        translate(width/2,height-40);
 
-        stroke(255);
+        strokeWeight(2);
 
-        branch(140);
+        branch(160);
 
         pop();
-
     }
 
     else if(mode==="lsystem"){
@@ -88,7 +94,17 @@ function draw(){
         presetSelect.show();
 
         turtle();
+    }
 
+    else if(mode==="koch"){
+
+        slider.hide();
+
+        generateButton.hide();
+        resetButton.hide();
+        presetSelect.hide();
+
+        drawKoch();
     }
 
     drawUI();
@@ -98,31 +114,32 @@ function drawUI(){
 
     noStroke();
 
-    fill(0,180);
+    fill(0,170);
 
-    rect(0,0,width,150);
+    rect(0,0,width,160);
 
     fill(0,255,200);
 
-    textSize(30);
+    textSize(34);
 
     text("Fractal Generator",20,140);
 
-    textSize(16);
+    textSize(17);
 
     fill(255);
 
-    text("Press 1 = Recursive Tree",300,40);
-    text("Press 2 = L-System",300,70);
-    text("Move Mouse = Dynamic Colors",300,100);
+    text("1 = Recursive Tree",350,40);
+    text("2 = L-System",350,70);
+    text("3 = Koch Snowflake",350,100);
+    text("S = Save Screenshot",350,130);
 }
 
 function branch(len){
 
     stroke(
-        map(len,0,140,50,255),
+        map(len,0,160,80,255),
         255,
-        map(mouseX,0,width,100,255)
+        map(mouseX,0,width,120,255)
     );
 
     line(0,0,0,-len);
@@ -153,20 +170,28 @@ function setMode(newMode){
 
     mode=newMode;
 
-    background(10);
+    background(8);
 }
 
 function keyPressed(){
 
     if(key==="1"){
+
         setMode("recursive");
     }
 
     if(key==="2"){
+
         setMode("lsystem");
     }
 
+    if(key==="3"){
+
+        setMode("koch");
+    }
+
     if(key==="s"||key==="S"){
+
         saveCanvas("fractal","png");
     }
 }
@@ -194,6 +219,7 @@ function generate(){
         }
 
         if(!found){
+
             nextSentence+=current;
         }
     }
@@ -218,11 +244,11 @@ function turtle(){
 
     resetMatrix();
 
-    translate(width/2,height);
+    translate(width/2,height-20);
 
     strokeWeight(1.5);
 
-    drawIndex=min(drawIndex+20,sentence.length);
+    drawIndex=min(drawIndex+25,sentence.length);
 
     for(let i=0;i<drawIndex;i++){
 
@@ -356,4 +382,70 @@ function loadPreset(type){
     len2=120;
 
     drawIndex=0;
+}
+
+
+
+
+
+
+/* ========================= */
+/* ===== KOCH FRACTAL ====== */
+/* ========================= */
+
+function drawKoch(){
+
+    translate(width/2,height/2);
+
+    strokeWeight(2);
+
+    let size=min(width,height)*0.45;
+
+    let p1=createVector(-size/2,size/3);
+    let p2=createVector(size/2,size/3);
+
+    let h=sqrt(3)*size/2;
+
+    let p3=createVector(0,-h/2);
+
+    let level=floor(map(mouseX,0,width,0,6));
+
+    stroke(
+        map(mouseY,0,height,50,255),
+        200,
+        255
+    );
+
+    kochLine(p1,p2,level);
+    kochLine(p2,p3,level);
+    kochLine(p3,p1,level);
+}
+
+function kochLine(a,b,level){
+
+    if(level===0){
+
+        line(a.x,a.y,b.x,b.y);
+
+        return;
+    }
+
+    let v=p5.Vector.sub(b,a);
+
+    v.div(3);
+
+    let p1=p5.Vector.add(a,v);
+
+    let p3=p5.Vector.sub(b,v);
+
+    let peak=v.copy();
+
+    peak.rotate(-PI/3);
+
+    let p2=p5.Vector.add(p1,peak);
+
+    kochLine(a,p1,level-1);
+    kochLine(p1,p2,level-1);
+    kochLine(p2,p3,level-1);
+    kochLine(p3,b,level-1);
 }
