@@ -4,9 +4,12 @@ let slider;
 let axiom ="F";
 let sentence=axiom;
 let rules=[];
-let len2=100;
+let len2=120;
 let angle2;
 let generateButton;
+let resetButton;
+let presetSelect;
+let drawIndex=0;
 function setup(){
     createCanvas(400,400);
     slider = createSlider(0,TWO_PI,PI/4,0.01);
