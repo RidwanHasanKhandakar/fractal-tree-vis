@@ -45,39 +45,117 @@ function setup(){
     loadPreset("Tree");
 }
 function draw(){
-    background(51);
+     background(10);
+
     if(mode==="recursive"){
+
+        slider.show();
+
         generateButton.hide();
+        resetButton.hide();
+        presetSelect.hide();
+
         angle=slider.value();
-        stroke(255);
+
+        push();
+
         translate(width/2,height);
-        branch(100);
-    }else if(mode==="lsystem"){
-        slider.hide();
-        generateButton.show();
-        turtle();
-    }
-}
-function branch(len){
-    line(0,0,0,-len);
-    translate(0,-len);
-    //rotate(angle);
-    //rotate(-angle);
-    if(len>4){
-        push();
-        rotate(angle);
-        branch(len*0.67);
+
+        stroke(255);
+
+        branch(140);
+
         pop();
+
+    }
+
+    else if(mode==="lsystem"){
+
+        slider.hide();
+
+        generateButton.show();
+        resetButton.show();
+        presetSelect.show();
+
+        turtle();
+
+    }
+
+    drawUI();
+}
+
+function drawUI(){
+
+    noStroke();
+
+    fill(0,180);
+
+    rect(0,0,width,150);
+
+    fill(0,255,200);
+
+    textSize(30);
+
+    text("Fractal Generator",20,140);
+
+    textSize(16);
+
+    fill(255);
+
+    text("Press 1 = Recursive Tree",300,40);
+    text("Press 2 = L-System",300,70);
+    text("Move Mouse = Dynamic Colors",300,100);
+}
+
+function branch(len){
+   stroke(
+        map(len,0,140,50,255),
+        255,
+        map(mouseX,0,width,100,255)
+    );
+
+    line(0,0,0,-len);
+
+    translate(0,-len);
+
+    if(len>4){
+
         push();
-        rotate(-angle);
+
+        rotate(angle);
+
         branch(len*0.67);
+
+        pop();
+
+        push();
+
+        rotate(-angle);
+
+        branch(len*0.67);
+
         pop();
     }
     //line(0,0,0,-len*0.67);
 }
 function setMode(newMode){
     mode=newMode;
-    background(51);
+    background(10);
+}
+
+function keyPressed(){
+
+    if(key==="1"){
+        setMode("recursive");
+    }
+
+    if(key==="2"){
+        setMode("lsystem");
+    }
+
+    if(key==="s"||key==="S"){
+        saveCanvas("fractal","png");
+    }
 }
 
 function generate(){
