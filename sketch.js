@@ -1,16 +1,24 @@
-let mode = "recursive";
-let angle =0;
+let mode="recursive";
+
+let angle=0;
 let slider;
-let axiom ="F";
+
+let axiom="F";
 let sentence=axiom;
 let rules=[];
+
 let len2=120;
 let angle2;
+
 let generateButton;
 let resetButton;
+
 let presetSelect;
+
 let drawIndex=0;
+
 function setup(){
+
     createCanvas(900,700);
 
     angleMode(RADIANS);
@@ -44,8 +52,10 @@ function setup(){
 
     loadPreset("Tree");
 }
+
 function draw(){
-     background(10);
+
+    background(10);
 
     if(mode==="recursive"){
 
@@ -108,7 +118,8 @@ function drawUI(){
 }
 
 function branch(len){
-   stroke(
+
+    stroke(
         map(len,0,140,50,255),
         255,
         map(mouseX,0,width,100,255)
@@ -136,10 +147,12 @@ function branch(len){
 
         pop();
     }
-    //line(0,0,0,-len*0.67);
 }
+
 function setMode(newMode){
+
     mode=newMode;
+
     background(10);
 }
 
@@ -159,7 +172,8 @@ function keyPressed(){
 }
 
 function generate(){
-    et nextSentence="";
+
+    let nextSentence="";
 
     for(let i=0;i<sentence.length;i++){
 
@@ -201,6 +215,7 @@ function resetLSystem(){
 }
 
 function turtle(){
+
     resetMatrix();
 
     translate(width/2,height);
@@ -247,6 +262,7 @@ function turtle(){
         }
     }
 }
+
 function changePreset(){
 
     loadPreset(presetSelect.value());
